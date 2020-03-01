@@ -56,7 +56,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-#not the best way for production
+# not the best way for production
 CORS_ORIGIN_ALLOW_ALL = True
 
 ROOT_URLCONF = 'arcticapi.urls'
