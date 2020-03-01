@@ -14,11 +14,12 @@ class CategoryList(APIView):
     def get(self, request, format=None):
         cats = Category.objects.all()
         if request.query_params.get('title'):
-            cats = cats.filter(title__contains=request.query_params.get('title'))
+            cats = cats.filter(
+                title__contains=request.query_params.get('title'))
         serializer = CategorySerializer(cats, many=True)
         return Response(serializer.data)
 
-
+    @csrf_exempt
     def post(self, request, format=None):
         serializer = CategorySerializer(data=request.data)
         if serializer.is_valid():
@@ -29,11 +30,13 @@ class CategoryList(APIView):
 
 class CategoryDetail(APIView):
     '''Work with an individual Category object'''
+    @csrf_exempt
     def get(self, request, pk, format=None):
         cat = Category.objects.get(id=pk)
         serializer = CategorySerializer(cat)
         return Response(serializer.data)
 
+    @csrf_exempt
     def put(self, request, pk, format=None):
         cat = Category.objects.get(id=pk)
         serializer = CategorySerializer(cat, data=request.data)
@@ -42,6 +45,7 @@ class CategoryDetail(APIView):
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+    @csrf_exempt
     def delete(self, request, pk, format=None):
         cat = Category.objects.get(id=pk)
         cat.delete()
